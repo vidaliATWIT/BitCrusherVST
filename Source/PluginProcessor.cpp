@@ -143,7 +143,11 @@ bool BitCrusherAudioProcessor::isBusesLayoutSupported (const BusesLayout& layout
 void BitCrusherAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
-    
+    auto* device = deviceManager.getCurrentAudioDevice();
+
+    auto activeInputChannels = device->getActiveInputChannels();
+    auto activeOutputChannels = device->getActiveOutputChannels();
+
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     int rate = rateRedux->getValue(); //Sample rate reduction
